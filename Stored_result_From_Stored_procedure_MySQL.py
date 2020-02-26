@@ -22,7 +22,6 @@ try:
             print("Quantidade = ", row[3])
             print("Preco Unitario = ", row[4])
             print("Valor de Mercado  = ", row[5])
-#        print(row.fetchall())
 
 except Error as e:
     print("Error reading data from MySQL table", e)

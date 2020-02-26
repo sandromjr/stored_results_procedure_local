@@ -1,52 +1,47 @@
 import datetime
 import mysql.connector
+from openpyxl import Workbook
 from mysql.connector import Error
 
 data = (datetime.date(2020, 1, 31))
+print(f"Date: {data} SELECTED")
+
+header = [
+    ("Data", "Cliente", "Descricao", "Quantidade", "Preco_Unitario", "Valor_de_Mercado")
+]
+
+arquivo_excel = Workbook()
+planilha1 = arquivo_excel.active
+print("Excel File: OPENED")
 
 try:
     connection = mysql.connector.connect(host='127.0.0.1',
                                          database='***',
                                          user='***',
                                          password='***')
-
+    print("Database: CONNECTED")
     cursor = connection.cursor()
     cursor.callproc('MJ_posicao_carteira', (data,))
+    print("Stored Procedure: CALLED SUCCESSFULLY")
 
-    print("\nPrinting each laptop record")
+    for linha in header:
+        planilha1.append(linha)
+
     for j in cursor.stored_results():
         for row in j:
-            print("Data = ", row[0])
-            print("Cliente  = ", row[1])
-            print("Descricao = ", row[2])
-            print("Quantidade = ", row[3])
-            print("Preco Unitario = ", row[4])
-            print("Valor de Mercado  = ", row[5])
+            planilha1.append(row)
 
-except Error as e:
-    print("Error reading data from MySQL table", e)
+    print("Downloading Datas")
+
+
+#except Error as e:
+#    print("Error reading data from MySQL table", e)
 finally:
     if (connection.is_connected()):
         connection.close()
         cursor.close()
         print("MySQL connection is closed")
-        
-# ------------------------------------------------------------------------------------------------
-# COMEÇA UM NOVO CODIGO
-# ------------------------------------------------------------------------------------------------
-#
-#from openpyxl import Workbook
-#arquivo_excel = Workbook()
-#planilha1 = arquivo_excel.active
-#valores = [
-#    ("Categoria", "Valor"),
-#    ("Restaurante", 45.99),
-#    ("Transporte", 208.45),
-#    ("Viagem", 558.54)
-#]
-#
-#for linha in valores:
-#    planilha1.append(linha)
-#
-#arquivo_excel.save("C:/Users/***/teste.xlsx")
-#
+
+arquivo_excel.save("C:/Users/***/Documents/Posicao_Carteira.xlsx")
+
+print("File Posicao_Carteira.xlsx CREATED")

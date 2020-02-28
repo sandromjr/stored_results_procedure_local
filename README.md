@@ -1,3 +1,5 @@
 # **stored_results_procedure_local**
-## This code is used to connect *MySQL* database, call a *Stored Procedure* and print all the itens.
-## Itens got on **Call** *Stored Procedure* will be stored in *xl* file (**UNDER CONSTRUCTION!**).
+
+## O que é?
+Este arquivo contém o código usado para se conectar ao banco de dados e chamar a **procedure** *MJ_posicao_carteira*.
+<br> A saída da consulta é salva em um arquivo *.xlsx* 
